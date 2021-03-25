@@ -10,11 +10,7 @@
           <Word :word="word" :current="false" />
         </div>
         <div class="word" :key="word.content" v-for="word in incomingWords">
-          <Word
-            :word="word"
-            :current="currentWord === word"
-            :userInput="currentUserInput"
-          />
+          <Word :word="word" :current="currentWord === word" />
         </div>
       </div>
     </div>
@@ -65,6 +61,7 @@ export default {
 
         // resets user input
         this.currentUserInput = [];
+        this.$store.commit("setCurrentUserInput", this.currentUserInput);
 
         // adds the new word & sets current word to the next word
         this.completedWords.push(completedWordData);
@@ -75,6 +72,7 @@ export default {
       } else if (e.keyCode >= 65 && e.keyCode <= 90) {
         // Character codes
         this.currentUserInput.push(e.key);
+        this.$store.commit("setCurrentUserInput", this.currentUserInput);
       }
       console.log(this.currentUserInput);
       console.log(this.currentUserInput.join(""));

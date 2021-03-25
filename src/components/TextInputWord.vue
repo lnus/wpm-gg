@@ -2,7 +2,7 @@
   <div
     :key="char"
     v-for="char in chars"
-    :class="`char${correct ? '' : ''}${current ? ' current' : ''}`"
+    :class="`char${current ? '' : ''}${current ? ' current' : ''}`"
   >
     {{ char }}
   </div>
@@ -15,7 +15,6 @@ export default {
     word: Object,
     correct: Boolean,
     current: Boolean,
-    userInput: Array,
   },
   data() {
     return {
@@ -25,6 +24,10 @@ export default {
   methods: {
     splitToChars() {
       this.chars = this.word.content.split("");
+    },
+    compareUserInput(i, c) {
+      let userIn = this.$store.getters.getCurrentUserInput;
+      console.log(userIn[i], c);
     },
   },
   created() {

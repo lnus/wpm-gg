@@ -4,6 +4,7 @@
     <div class="text-input-container">
       <TextInput class="text-input" />
     </div>
+    <WPMDisplay />
   </div>
 </template>
 
@@ -11,6 +12,7 @@
 // @ is an alias to /src
 import TextInput from "@/components/TextInput";
 import Timer from "@/components/Timer";
+import WPMDisplay from "@/components/WPMDisplay";
 import randomWords from "random-words";
 
 export default {
@@ -18,6 +20,7 @@ export default {
   components: {
     TextInput,
     Timer,
+    WPMDisplay,
   },
   data() {
     return {
