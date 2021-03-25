@@ -1,5 +1,5 @@
 <template>
-  <h1>{{ test }}</h1>
+  <h1>{{ timerCount }}</h1>
 </template>
 
 <script>
@@ -10,9 +10,8 @@ export default {
   },
   data() {
     return {
-      timerEnabled: true,
-      timerCount: 30,
-      test: String,
+      timerEnabled: false,
+      timerCount: Number,
     };
   },
 
@@ -47,7 +46,17 @@ export default {
     },
   },
   mounted() {
-    this.test = this.$store.getters.getIncomingWords;
+    this.timerCount = this.$store.getters.getTimer;
+    this.timerEnabled = this.$store.getters.getTimerState; // not sure if needed
+    this.unsubscribe = this.$store.subscribe((mutation) => {
+      if (mutation.type === "setTimerState") {
+        // TODO: update this to allow stopping :)
+        this.timerEnabled = true;
+      }
+    });
+  },
+  beforeUnmount() {
+    this.unsubscribe();
   },
 };
 </script>

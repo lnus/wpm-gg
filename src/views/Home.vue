@@ -2,7 +2,7 @@
   <div class="home">
     <Timer :time="timer" />
     <div class="text-input-container">
-      <TextInput class="text-input" :incomingWords="incomingWords" />
+      <TextInput class="text-input" />
     </div>
   </div>
 </template>
@@ -21,13 +21,12 @@ export default {
   },
   data() {
     return {
-      incomingWords: [Object],
       timer: Number,
     };
   },
   methods: {
-    async getWords(n) {
-      const words = await randomWords(n);
+    getWords(n) {
+      const words = randomWords(n);
       const wordsFormatted = words.map((word, index) => {
         let wordsObj = {
           id: index,
@@ -43,8 +42,8 @@ export default {
       return wordsFormatted;
     },
   },
-  async created() {
-    this.incomingWords = await this.getWords(50);
+  created() {
+    this.$store.commit("setIncomingWords", this.getWords(50));
     this.timer = 60;
   },
 };

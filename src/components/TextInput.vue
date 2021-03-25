@@ -26,26 +26,28 @@ import Word from "@/components/TextInputWord";
 
 export default {
   name: "TextInput",
-  props: {
-    incomingWords: Array,
-  },
   components: {
     Word,
   },
   data() {
     return {
+      incomingWords: Array,
       completedWords: Array,
-      currentIncomingWords: Array,
       currentWord: String,
       currentUserInput: Array,
+      timerState: Boolean,
     };
   },
   methods: {
     readKeyPress(e) {
+      if (!this.timerState) {
+        this.$store.commit("setTimerState", true);
+        this.timerState = true;
+      }
       // Space or Enter
       if (e.keyCode === 13 || e.keyCode === 32) {
         // pops the current word
-        let completedWord = this.currentIncomingWords.shift();
+        let completedWord = this.incomingWords.shift();
 
         // if word is matching, add correct tag. else correct = false
         let completedWordData;
@@ -66,7 +68,7 @@ export default {
 
         // adds the new word & sets current word to the next word
         this.completedWords.push(completedWordData);
-        this.currentWord = this.currentIncomingWords[0];
+        this.currentWord = this.incomingWords[0];
       } else if (e.keyCode === 8) {
         // Backspace
         this.currentUserInput.pop();
@@ -80,11 +82,11 @@ export default {
   },
   created() {
     // Sets base state for a bunch of stuff
-    this.completedWords = [];
+    this.incomingWords = this.$store.getters.getIncomingWords;
+    this.completedWords = this.$store.getters.getCompletedWords;
+    this.timerState = this.$store.getters.getTimerState;
     this.currentUserInput = [];
-    this.currentIncomingWords = this.incomingWords;
-    this.currentWord = this.currentIncomingWords[0];
-    console.log(this.currentWord);
+    this.currentWord = this.incomingWords[0];
   },
 };
 </script>

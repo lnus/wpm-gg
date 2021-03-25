@@ -5,7 +5,7 @@ export default createStore({
     incomingWords: [],
     completedWords: [],
     timer: 60,
-    demo: "Test",
+    timerState: false,
   },
   mutations: {
     setCompletedWords(state, payload) {
@@ -17,12 +17,17 @@ export default createStore({
     setTimer(state, payload) {
       state.timer = payload;
     },
+    setTimerState(state, payload) {
+      console.log(payload);
+      state.timerState = payload;
+    },
   },
-  actions: {},
-  modules: {},
+  /*   actions: {},
+  modules: {}, */
   getters: {
     getCompletedWords: (state) => state.completedWords,
     getIncomingWords: (state) => state.incomingWords,
     getTimer: (state) => state.timer,
+    getTimerState: (state) => state.timerState,
   },
 });
