@@ -71,7 +71,7 @@ export default {
         this.currentWord = this.incomingWords[0];
       } else if (e.keyCode === 8) {
         // Backspace
-        this.currentUserInput.pop();
+        this.setCurrentUserInput(this.currentUserInput.slice(0, -1));
       } else if (e.keyCode >= 65 && e.keyCode <= 90) {
         // Character codes a-Z (works with shift :))
         this.setCurrentUserInput([...this.currentUserInput, e.key]);

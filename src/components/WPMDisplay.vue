@@ -15,9 +15,11 @@ export default {
     calculateWpm() {
       // Gets all the correct chars from completedWords
       let completedCorrectly = this.completedWords.map((word) => {
-        if (word.correct) {
-          return word.content.split("");
-        }
+        // Checks the correct amount of chars based on input
+        // TODO: Move this to the actual object. Will make accuracy easier in different module
+        return word.content.split("").filter((char, index) => {
+          if (char === word.userInput[index]) return char;
+        });
       });
 
       // Concats all the chars into one long boi array

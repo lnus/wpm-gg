@@ -1,20 +1,26 @@
 <template>
-  <div
-    :key="char"
-    v-for="char in chars"
-    :class="`char${current ? '' : ''}${current ? ' current' : ''}`"
-  >
-    {{ char }}
+  <div :key="index" v-for="(char, index) in chars">
+    <Char
+      :char="char"
+      :current="current"
+      :index="index"
+      :wordLength="chars.length"
+    />
   </div>
 </template>
 
 <script>
+import Char from "./TextInputChar";
+
 export default {
   name: "Word",
   props: {
     word: Object,
     correct: Boolean,
     current: Boolean,
+  },
+  components: {
+    Char,
   },
   data() {
     return {
@@ -25,10 +31,12 @@ export default {
     splitToChars() {
       this.chars = this.word.content.split("");
     },
-    // compareUserInput(i, c) {
-    //   let userIn = this.$store.getters.getCurrentUserInput;
-    //   console.log(userIn[i], c);
-    // },
+    compareUserInput() {
+      // Only run on current word, otherwise will be set by other props
+      if (this.current) {
+        console.log("");
+      }
+    },
   },
   created() {
     this.splitToChars();
