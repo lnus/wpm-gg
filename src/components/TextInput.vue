@@ -2,12 +2,8 @@
   <div class="input-container">
     <div @keydown="readKeyPress" tabindex="1">
       <div class="word-container">
-        <div
-          :class="`word completed ${word.correct ? 'correct' : 'incorrect'}`"
-          :key="word.content"
-          v-for="word in completedWords"
-        >
-          <Word :word="word" :current="false" />
+        <div class="word" :key="word.content" v-for="word in completedWords">
+          <Word :userIn="word.userInput" :word="word" :current="false" />
         </div>
         <div class="word" :key="word.content" v-for="word in incomingWords">
           <Word :word="word" :current="currentWord === word" />

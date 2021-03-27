@@ -17,6 +17,7 @@ export default {
     current: Boolean,
     index: Number,
     wordLength: Number,
+    userIn: Array,
   },
   data() {
     return {
@@ -52,6 +53,16 @@ export default {
         this.showCursor = false;
       }
     },
+    setFinalStyles() {
+      let thisChar = this.userIn[this.index];
+      if (thisChar === this.char) {
+        this.incorrect = false;
+        this.correct = true;
+      } else {
+        this.incorrect = true;
+        this.correct = false;
+      }
+    },
   },
   watch: {
     // This might be mad slow
@@ -68,6 +79,9 @@ export default {
   }),
   created() {
     this.displayCursor();
+    if (!this.current && this.userIn) {
+      this.setFinalStyles();
+    }
   },
 };
 </script>

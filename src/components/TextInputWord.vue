@@ -5,6 +5,7 @@
       :current="current"
       :index="index"
       :wordLength="chars.length"
+      :userIn="userIn"
     />
   </div>
 </template>
@@ -18,6 +19,7 @@ export default {
     word: Object,
     correct: Boolean,
     current: Boolean,
+    userIn: Array,
   },
   components: {
     Char,
