@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <Timer :time="timer" />
+    <Timer />
     <div class="text-input-container">
       <TextInput class="text-input" />
     </div>
@@ -22,12 +22,9 @@ export default {
     Timer,
     WPMDisplay,
   },
-  data() {
-    return {
-      timer: Number,
-    };
-  },
+  // TODO: Refactor this
   methods: {
+    // Generates initial words, i'll move this function though. This isn't very clean :)
     getWords(n) {
       const words = randomWords(n);
       const wordsFormatted = words.map((word, index) => {
@@ -40,14 +37,12 @@ export default {
         return wordsObj;
       });
 
-      console.log(wordsFormatted);
-
       return wordsFormatted;
     },
   },
   created() {
+    // MOVE
     this.$store.commit("setIncomingWords", this.getWords(50));
-    this.timer = 60;
   },
 };
 </script>

@@ -4,9 +4,9 @@ export default createStore({
   state: {
     incomingWords: [],
     completedWords: [],
+    currentUserInput: [],
     timer: 60,
     timerState: false,
-    currentUserInput: [],
   },
   mutations: {
     setCompletedWords(state, payload) {
@@ -19,11 +19,9 @@ export default createStore({
       state.timer = payload;
     },
     setTimerState(state, payload) {
-      console.log(payload);
       state.timerState = payload;
     },
     setCurrentUserInput(state, payload) {
-      console.log(payload);
       state.currentUserInput = payload;
     },
   },

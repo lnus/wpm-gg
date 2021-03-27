@@ -25,10 +25,10 @@ export default {
     splitToChars() {
       this.chars = this.word.content.split("");
     },
-    compareUserInput(i, c) {
-      let userIn = this.$store.getters.getCurrentUserInput;
-      console.log(userIn[i], c);
-    },
+    // compareUserInput(i, c) {
+    //   let userIn = this.$store.getters.getCurrentUserInput;
+    //   console.log(userIn[i], c);
+    // },
   },
   created() {
     this.splitToChars();

@@ -1,8 +1,9 @@
 <template>
-  <h1>{{ wpm }}</h1>
+  <h1>WPM: {{ wpm }}</h1>
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "WPMDisplay",
   data() {
@@ -12,29 +13,32 @@ export default {
   },
   methods: {
     calculateWpm() {
-      let completed = this.$store.getters.getCompletedWords;
-      let timer = this.$store.getters.getTimer;
-
-      let completedCorrectly = completed.filter((word) => {
+      // Gets all the correct chars from completedWords
+      let completedCorrectly = this.completedWords.map((word) => {
         if (word.correct) {
-          return word;
+          return word.content.split("");
         }
       });
 
-      this.wpm = completedCorrectly / (60 - timer);
+      // Concats all the chars into one long boi array
+      let merged = [].concat.apply([], completedCorrectly);
+      let wordsCount = merged.length / 5;
+
+      // TODO: Change this to follow a maxTimer state, in case of user change
+      let timeElapsed = 60 - this.timer;
+
+      this.wpm = (wordsCount / timeElapsed) * 60;
     },
   },
-  computed: {},
-  mounted() {
-    console.log("hello");
-    this.unsubscribe = this.$store.subscribe((mutation) => {
-      if (
-        mutation.type === "setTimer" ||
-        mutation.type === "setCompletedWords"
-      ) {
-        console.log("hello");
-      }
-    });
+  computed: mapState({
+    completedWords: (state) => state.completedWords,
+    timer: (state) => state.timer,
+  }),
+  watch: {
+    // When timer updates, run this.calculateWpm()
+    timer() {
+      this.calculateWpm();
+    },
   },
 };
 </script>

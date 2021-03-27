@@ -19,6 +19,7 @@
 
 <script>
 import Word from "@/components/TextInputWord";
+import { mapState, mapMutations } from "vuex";
 
 export default {
   name: "TextInput",
@@ -27,18 +28,19 @@ export default {
   },
   data() {
     return {
-      incomingWords: Array,
-      completedWords: Array,
       currentWord: String,
-      currentUserInput: Array,
-      timerState: Boolean,
     };
   },
   methods: {
+    ...mapMutations([
+      "setTimerState",
+      "setCurrentUserInput",
+      "setCompletedWords",
+    ]),
+    // TODO: Refactor using helpers
     readKeyPress(e) {
       if (!this.timerState) {
-        this.$store.commit("setTimerState", true);
-        this.timerState = true;
+        this.setTimerState(true);
       }
       // Space or Enter
       if (e.keyCode === 13 || e.keyCode === 32) {
@@ -51,39 +53,38 @@ export default {
           completedWordData = {
             ...completedWord,
             correct: true,
+            userInput: this.currentUserInput,
           };
         } else {
           completedWordData = {
             ...completedWord,
             correct: false,
+            userInput: this.currentUserInput,
           };
         }
 
         // resets user input
-        this.currentUserInput = [];
-        this.$store.commit("setCurrentUserInput", this.currentUserInput);
+        this.setCurrentUserInput([]);
 
         // adds the new word & sets current word to the next word
-        this.completedWords.push(completedWordData);
+        this.setCompletedWords([...this.completedWords, completedWordData]);
         this.currentWord = this.incomingWords[0];
       } else if (e.keyCode === 8) {
         // Backspace
         this.currentUserInput.pop();
       } else if (e.keyCode >= 65 && e.keyCode <= 90) {
-        // Character codes
-        this.currentUserInput.push(e.key);
-        this.$store.commit("setCurrentUserInput", this.currentUserInput);
+        // Character codes a-Z (works with shift :))
+        this.setCurrentUserInput([...this.currentUserInput, e.key]);
       }
-      console.log(this.currentUserInput);
-      console.log(this.currentUserInput.join(""));
     },
   },
-  created() {
-    // Sets base state for a bunch of stuff
-    this.incomingWords = this.$store.getters.getIncomingWords;
-    this.completedWords = this.$store.getters.getCompletedWords;
-    this.timerState = this.$store.getters.getTimerState;
-    this.currentUserInput = [];
+  computed: mapState({
+    incomingWords: (state) => state.incomingWords,
+    completedWords: (state) => state.completedWords,
+    timerState: (state) => state.timerState,
+    currentUserInput: (state) => state.currentUserInput,
+  }),
+  mounted() {
     this.currentWord = this.incomingWords[0];
   },
 };
