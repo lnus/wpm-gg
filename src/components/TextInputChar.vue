@@ -54,6 +54,7 @@ export default {
       }
     },
     setFinalStyles() {
+      // This will run on completed words
       let thisChar = this.userIn[this.index];
       if (thisChar === this.char) {
         this.incorrect = false;
@@ -72,6 +73,9 @@ export default {
     },
     current() {
       this.displayCursor();
+    },
+    userIn() {
+      this.setFinalStyles();
     },
   },
   computed: mapState({

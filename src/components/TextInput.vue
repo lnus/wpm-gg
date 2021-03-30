@@ -2,29 +2,39 @@
   <div class="input-container">
     <div @keydown="readKeyPress" tabindex="1">
       <div class="word-container">
-        <div class="word" :key="word.content" v-for="word in completedWords">
-          <Word :userIn="word.userInput" :word="word" :current="false" />
-        </div>
-        <div class="word" :key="word.content" v-for="word in incomingWords">
-          <Word :word="word" :current="currentWord === word" />
-        </div>
+        <Line
+          :key="line"
+          v-for="line in completedLines.slice(-completedLinesLen)"
+          :line="line"
+          :currentWord="currentWord"
+        />
+        <Line
+          :key="line"
+          v-for="line in incomingLines.slice(0, incomingLinesLen)"
+          :line="line"
+          :currentWord="currentWord"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Word from "@/components/TextInputWord";
+import Line from "@/components/TextInputLine";
 import { mapState, mapMutations } from "vuex";
 
 export default {
   name: "TextInput",
   components: {
-    Word,
+    Line,
   },
   data() {
     return {
       currentWord: String,
+      inputtedWords: 0,
+      lineLimit: 10,
+      incomingLinesLen: 3,
+      completedLinesLen: 1,
     };
   },
   methods: {
@@ -32,8 +42,12 @@ export default {
       "setTimerState",
       "setCurrentUserInput",
       "setCompletedWords",
+      "addIncomingWords",
+      "updateIncomingLines",
+      "updateCompletedLines",
+      "setIncomingLineWordUserInput",
+      "setLineComplete",
     ]),
-    // TODO: Refactor using helpers
     readKeyPress(e) {
       if (!this.timerState) {
         this.setTimerState(true);
@@ -48,23 +62,35 @@ export default {
         if (this.currentUserInput.join("") === this.currentWord.content) {
           completedWordData = {
             ...completedWord,
-            correct: true,
             userInput: this.currentUserInput,
           };
         } else {
           completedWordData = {
             ...completedWord,
-            correct: false,
             userInput: this.currentUserInput,
           };
         }
 
-        // resets user input
-        this.setCurrentUserInput([]);
-
         // adds the new word & sets current word to the next word
         this.setCompletedWords([...this.completedWords, completedWordData]);
         this.currentWord = this.incomingWords[0];
+
+        // Sets the userinput of the completed word
+        this.setIncomingLineWordUserInput(this.inputtedWords);
+
+        // resets user input
+        this.setCurrentUserInput([]);
+
+        // Increments inputtedwords for check
+        this.inputtedWords++;
+
+        // Updates line formatting in case inputtedWords > Rowlimit
+        if (this.inputtedWords >= this.lineLimit) {
+          this.incomingLinesLen = 2; // should only happen on first hit
+          this.addIncomingWords(this.lineLimit);
+          this.updateLines();
+          this.inputtedWords = 0;
+        }
       } else if (e.keyCode === 8) {
         // Backspace
         this.setCurrentUserInput(this.currentUserInput.slice(0, -1));
@@ -73,15 +99,23 @@ export default {
         this.setCurrentUserInput([...this.currentUserInput, e.key]);
       }
     },
+    updateLines() {
+      this.updateIncomingLines(this.lineLimit);
+      this.updateCompletedLines(this.lineLimit);
+    },
   },
   computed: mapState({
     incomingWords: (state) => state.incomingWords,
     completedWords: (state) => state.completedWords,
     timerState: (state) => state.timerState,
     currentUserInput: (state) => state.currentUserInput,
+    incomingLines: (state) => state.incomingLines,
+    completedLines: (state) => state.completedLines,
   }),
   mounted() {
+    this.addIncomingWords(30);
     this.currentWord = this.incomingWords[0];
+    this.updateLines();
   },
 };
 </script>
@@ -103,7 +137,7 @@ export default {
   display: flex;
   width: 1000px;
   height: 200px;
-  background-color: lightslategray;
+  background-color: whitesmoke;
   flex-wrap: wrap;
   justify-content: space-between;
   border: 2px solid transparent;
@@ -117,21 +151,10 @@ export default {
 }
 
 .word {
-  line-height: 18px;
-  max-height: 54px;
   display: flex;
   font-size: 2rem;
   font-family: monospace;
   margin-right: 0.5rem;
   text-align: center;
-}
-
-.correct {
-  color: lime;
-}
-
-.incorrect {
-  color: red;
-  text-decoration: line-through;
 }
 </style>
