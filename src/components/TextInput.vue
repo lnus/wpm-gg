@@ -1,6 +1,6 @@
 <template>
   <div class="input-container">
-    <div @keydown="readKeyPress" tabindex="1">
+    <div @keydown="readKeyPress" tabindex="0">
       <div class="word-container">
         <Line
           :key="line"
@@ -143,11 +143,6 @@ export default {
   border: 2px solid transparent;
   border-radius: 10px;
   transition: 0.2s;
-}
-
-.word-container:focus {
-  outline: 0;
-  border: 2px solid red;
 }
 
 .word {

@@ -33,12 +33,6 @@ export default {
     splitToChars() {
       this.chars = this.word.content.split("");
     },
-    compareUserInput() {
-      // Only run on current word, otherwise will be set by other props
-      if (this.current) {
-        console.log("");
-      }
-    },
   },
   created() {
     this.splitToChars();

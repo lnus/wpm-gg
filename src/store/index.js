@@ -14,6 +14,7 @@ export default createStore({
     timerState: false,
     wpm: 0,
     accuracy: 0,
+    showEndscreen: false,
   },
   mutations: {
     setCompletedWords(state, payload) {
@@ -116,6 +117,9 @@ export default createStore({
       state.accuracy =
         (correctCharsMerged.length / allCharsMerged.length) * 100;
     },
+    setShowEndscreen(state, payload = true) {
+      state.showEndscreen = payload;
+    },
   },
   actions: {},
   modules: {},
@@ -128,5 +132,6 @@ export default createStore({
     getCurrentTarget: (state) => state.currentTarget,
     getIncomingLines: (state) => state.incomingLines,
     getCompletedLines: (state) => state.completedLines,
+    getShowEndscreen: (state) => state.showEndscreen,
   },
 });
