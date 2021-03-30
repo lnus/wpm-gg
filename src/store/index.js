@@ -10,7 +10,10 @@ export default createStore({
     completedLines: [],
     currentTarget: String,
     timer: 60,
+    maxTimer: 60,
     timerState: false,
+    wpm: 0,
+    accuracy: 0,
   },
   mutations: {
     setCompletedWords(state, payload) {
@@ -75,6 +78,43 @@ export default createStore({
     },
     setIncomingLineWordUserInput(state, index) {
       state.incomingLines[0].words[index].userInput = state.currentUserInput;
+    },
+    calculateAndSetWpm(state) {
+      // Gets all the correct chars from completedWords
+      let correctChars = state.completedWords.map((word) => {
+        // Checks the correct amount of chars based on input
+        return word.content.split("").filter((char, index) => {
+          if (char === word.userInput[index]) return char;
+        });
+      });
+
+      // Concats all the chars into one long boi array
+      let merged = [].concat.apply([], correctChars);
+      let wordsCount = merged.length / 5;
+      let timeElapsed = state.maxTimer - state.timer;
+
+      state.wpm = (wordsCount / timeElapsed) * 60;
+    },
+    calculateAndSetAccuracy(state) {
+      // Gets all the correct chars from completedWords
+      let correctChars = state.completedWords.map((word) => {
+        // Checks the correct amount of chars based on input
+        return word.content.split("").filter((char, index) => {
+          if (char === word.userInput[index]) return char;
+        });
+      });
+
+      // Gets all the chars in total from completedWords
+      let allChars = state.completedWords.map((word) => {
+        return word.content.split("");
+      });
+
+      // Merges them for compare
+      let correctCharsMerged = [].concat.apply([], correctChars);
+      let allCharsMerged = [].concat.apply([], allChars);
+
+      state.accuracy =
+        (correctCharsMerged.length / allCharsMerged.length) * 100;
     },
   },
   actions: {},
