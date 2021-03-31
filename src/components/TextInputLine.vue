@@ -21,7 +21,7 @@ export default {
   },
   props: {
     line: Object,
-    currentWord: String,
+    currentWord: Object,
   },
   computed: mapState({
     currentUserInput: (state) => state.currentUserInput,

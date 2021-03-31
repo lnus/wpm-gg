@@ -90,7 +90,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .corr {
   color: var(--primary-text-color);
 }
@@ -101,6 +101,21 @@ export default {
 }
 
 .cursor {
-  box-shadow: -1px 0px 0px 0px var(--accent-color);
+  background-color: var(--secondary-color);
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0% {
+    background-color: var(--secondary-color);
+  }
+
+  50% {
+    background-color: transparent;
+  }
+
+  100% {
+    background-color: var(--secondary-color);
+  }
 }
 </style>

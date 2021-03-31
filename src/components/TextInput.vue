@@ -1,6 +1,11 @@
 <template>
   <div class="input-container">
-    <div style="outline: none" @keydown="readKeyPress" tabindex="0">
+    <div
+      ref="inputField"
+      style="outline: none"
+      @keydown="readKeyPress"
+      tabindex="0"
+    >
       <div class="word-container">
         <Line
           :key="line"
@@ -116,6 +121,11 @@ export default {
     this.addIncomingWords(30);
     this.currentWord = this.incomingWords[0];
     this.updateLines();
+
+    // Autofocus
+    setTimeout(() => {
+      this.$refs.inputField.focus();
+    }, 100);
   },
 };
 </script>
