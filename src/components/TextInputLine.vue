@@ -32,10 +32,11 @@ export default {
 <style scoped>
 .word {
   display: flex;
-  font-size: 2rem;
-  font-family: monospace;
+  font-size: 1.5rem;
   margin-right: 0.5rem;
   text-align: center;
+  color: var(--accent-color);
+  filter: drop-shadow(4px 2px 4px #000000);
 }
 
 .line {

@@ -1,5 +1,9 @@
 <template>
-  <h1>Accuracy: {{ accuracy.toFixed(2) }}%</h1>
+  <div class="accuracy-display">
+    <div class="accuracy-display__text">
+      Accuracy: {{ accuracy.toFixed(2) }}%
+    </div>
+  </div>
 </template>
 
 <script>
@@ -21,3 +25,16 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.accuracy-display {
+  display: flex;
+  justify-content: center;
+}
+
+.accuracy-display__text {
+  color: var(--secondary-color);
+  font-size: 2rem;
+  text-transform: lowercase;
+}
+</style>

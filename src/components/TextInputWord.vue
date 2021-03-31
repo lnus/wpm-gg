@@ -39,12 +39,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.current {
-  color: blue;
-}
-.correct {
-  color: lime;
-}
-</style>

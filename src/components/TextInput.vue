@@ -1,6 +1,6 @@
 <template>
   <div class="input-container">
-    <div @keydown="readKeyPress" tabindex="0">
+    <div style="outline: none" @keydown="readKeyPress" tabindex="0">
       <div class="word-container">
         <Line
           :key="line"
@@ -32,7 +32,7 @@ export default {
     return {
       currentWord: String,
       inputtedWords: 0,
-      lineLimit: 10,
+      lineLimit: 8,
       incomingLinesLen: 3,
       completedLinesLen: 1,
     };
@@ -122,12 +122,12 @@ export default {
 
 <style scoped>
 .input-container {
+  outline: none;
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  /* temporary */
 }
 
 .word-container {
@@ -137,19 +137,10 @@ export default {
   display: flex;
   width: 1000px;
   height: 200px;
-  background-color: whitesmoke;
   flex-wrap: wrap;
   justify-content: space-between;
   border: 2px solid transparent;
   border-radius: 10px;
   transition: 0.2s;
-}
-
-.word {
-  display: flex;
-  font-size: 2rem;
-  font-family: monospace;
-  margin-right: 0.5rem;
-  text-align: center;
 }
 </style>

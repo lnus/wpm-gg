@@ -1,5 +1,7 @@
 <template>
-  <h1>WPM: {{ wpm.toFixed(2) }}</h1>
+  <div class="wpm-display">
+    <div class="wpm-display__text">WPM: {{ wpm.toFixed(2) }}</div>
+  </div>
 </template>
 
 <script>
@@ -21,3 +23,16 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.wpm-display {
+  display: flex;
+  justify-content: center;
+}
+
+.wpm-display__text {
+  color: var(--secondary-color);
+  font-size: 2rem;
+  text-transform: lowercase;
+}
+</style>

@@ -2,14 +2,19 @@
   <transition name="fade">
     <div v-if="showEndscreen" class="endscreen__wrapper">
       <div class="endscreen__inner">
-        <h1 class="endscreen__inner__title">Final scores:</h1>
-        <span class="endscreen__inner__wpm info">{{ wpm.toFixed(2) }} WPM</span>
-        <span class="endscreen__inner__accuracy info"
-          >{{ accuracy.toFixed(2) }}% Accuracy
-        </span>
-        <button @click="closeEndscreen" class="endscreen__inner__close button">
-          Close
-        </button>
+        <h1 class="endscreen__inner__title">final scores</h1>
+        <div class="endscreen__inner__wpm info">{{ wpm.toFixed(2) }} WPM</div>
+        <div class="endscreen__inner__accuracy info">
+          {{ accuracy.toFixed(2) }}% Accuracy
+        </div>
+        <div class="endscreen__button-grouping">
+          <button
+            @click="closeEndscreen"
+            class="endscreen__inner__close button"
+          >
+            Close
+          </button>
+        </div>
       </div>
     </div>
   </transition>
@@ -43,7 +48,7 @@ export default {
 
 <style scoped>
 .endscreen__wrapper {
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.9);
   width: 100%;
   height: 100%;
   position: fixed;
@@ -55,18 +60,44 @@ export default {
 }
 
 .endscreen__inner {
-  background-color: white;
-  width: 25%;
-  height: 25%;
+  background-color: var(--secondary-color);
+  width: fit-content;
+  height: fit-content;
   display: flex;
   flex-direction: column;
   padding: 1rem;
+  border-radius: 20px;
+  text-transform: lowercase;
+  font-size: 1.1rem;
 }
 
 .endscreen__inner * {
   padding: 1rem;
+  color: var(--secondary-text-color);
 }
 
+.endscreen__button-grouping {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.button {
+  margin: 0 20px 0 20px;
+  background-color: transparent;
+  text-transform: uppercase;
+  outline: none;
+  border: 4px solid var(--accent-color);
+  border-radius: 1rem;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: var(--accent-color);
+}
+
+/* Animation stuff */
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s ease;

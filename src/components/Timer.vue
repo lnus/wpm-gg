@@ -1,5 +1,7 @@
 <template>
-  <h1>{{ timer }}</h1>
+  <div class="timer">
+    <div class="timer__text">{{ timer }}</div>
+  </div>
 </template>
 
 <script>
@@ -34,3 +36,16 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.timer {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.timer__text {
+  color: var(--primary-text-color);
+  font-size: 5rem;
+}
+</style>

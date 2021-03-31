@@ -92,15 +92,15 @@ export default {
 
 <style scoped>
 .corr {
-  color: white;
+  color: var(--primary-text-color);
 }
 
 .incorr {
-  color: orange;
+  color: var(--secondary-color);
   text-decoration: line-through;
 }
 
 .cursor {
-  box-shadow: -1px 0px 0px 0px white;
+  box-shadow: -1px 0px 0px 0px var(--accent-color);
 }
 </style>
